@@ -1,29 +1,44 @@
 from fastapi import HTTPException, status
 
-UserAlreadyExistsException = HTTPException(
-    status_code=status.HTTP_409_CONFLICT,
+
+class BookingException(HTTPException):
+    status_code = 500
+    detail = ''
+    
+    def __init__(self):
+        super().__init__(status_code=self.status_code, detail=self.detail)
+        
+
+class UserAlreadyExistsException(BookingException):
+    status_code=status.HTTP_409_CONFLICT
     detail="User already exists"
 
-)
 
-IncorrectEmailOrPasswordException = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED,
+class IncorrectEmailOrPasswordException(BookingException):
+    status_code=status.HTTP_401_UNAUTHORIZED
     detail='Incorrect email or password'
-)
 
-TokenExpiredException = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED,
+
+class TokenExpiredException(BookingException):
+    status_code=status.HTTP_401_UNAUTHORIZED
     detail="Token expired"
-)
 
-TokenAbsentException = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED,
+
+class TokenAbsentException(BookingException):
+    status_code=status.HTTP_401_UNAUTHORIZED
     detail="Token is absent"
-)
 
-IncorrectTokenFormatException = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED,
+
+class IncorrectTokenFormatException(BookingException):
+    status_code=status.HTTP_401_UNAUTHORIZED
     detail="Incorrect token format"
-)
 
-UserIsNotPresentException = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
+class UserIsNotPresentException(BookingException):
+    status_code=status.HTTP_401_UNAUTHORIZED
+    detail=""
+    
+
+class RoomCannotBeBookedException(BookingException):
+    status_code=status.HTTP_409_CONFLICT
+    detail="No rooms left"
